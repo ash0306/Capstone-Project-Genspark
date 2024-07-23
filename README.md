@@ -104,3 +104,6 @@ Customer endpoints are used by regular users of the system to browse movies, boo
 #### Payments(extra)
 - **POST** /api/payments: Process a payment.
 - **GET** /api/payments/{id}: Get payment details.
+
+### 5. Class Diagrams
+![Class Diagrams](./Files/class_diagram.png)
