@@ -107,3 +107,9 @@ Customer endpoints are used by regular users of the system to browse movies, boo
 
 ### 5. Class Diagrams
 ![Class Diagrams](./Files/class_diagram.png)
+
+### 6. Repositories
+
+The backend repository for this project can be found [here](## Backend Repostiory
+
+The repository for the backend of this project can be found [here](https://github.com/ash0306/AceFlicks-Backend))
