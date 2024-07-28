@@ -111,3 +111,5 @@ Customer endpoints are used by regular users of the system to browse movies, boo
 ### 6. Repositories
 
 The repository for the backend of this project can be found [here](https://github.com/ash0306/AceFlicks-Backend)
+
+The repository for the frontend of this project can be found [here](https://github.com/ash0306/AceFlicks-Frontend)
