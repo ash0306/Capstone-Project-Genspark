@@ -1,115 +1,130 @@
-# Movie Ticket Booking System
+# AceTickets
 
-## 1. Requirements
+AceTickets is a comprehensive movie booking application that includes both backend and frontend components. The backend handles all server-side operations such as user authentication, movie management, showtime scheduling, booking services, and theater management. The frontend provides a seamless user interface for browsing movies, booking tickets, and managing user accounts.
 
-### Functional Requirements
+## Table of Contents
 
-- User Registration and Authentication
-- Movie Listings
-- Show Timings
-- Seat Selection
-- Payment Integration(Extra)
-- Booking Confirmation
-- User Profile and Booking History
+- [Project Overview](#project-overview)
+- [Class Diagram](#class-diagram)
+- [Backend](#backend)
+  - [Features](#features)
+  - [Technologies Used](#technologies-used)
+  - [API Endpoints](#api-endpoints)
+- [Frontend](#frontend)
+  - [Features](#features-1)
+  - [Technologies Used](#technologies-used-1)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
 
-## 2. System Architecture
-### 2.1. Backend
+## Project Overview
 
-- **ASP.NET Core**: For handling business logic and API endpoints.
-- **Entity Framework Core**: For database operations and ORM.
+AceTickets provides an end-to-end solution for movie ticket booking, from browsing movies to managing bookings and user accounts. The system is built with a robust backend and a responsive frontend.
 
-### 2.2. Database
+## Class Diagram
 
-- **SQL Server**: For storing all the application data.
+![class-diagram](./Files/MovieBookingERD.png)
 
-### 2.3. Authentication
+## Backend
 
-- Use **ASP.NET Identity** for user authentication and authorization.
+### Features
 
+- **User Authentication**: Registration, login, and user management.
+- **Movie Management**: Adding, updating, and deleting movies.
+- **Showtime Scheduling**: Managing showtimes for different theaters.
+- **Booking Management**: Handling bookings and seat allocations.
+- **Theater Management**: Managing theater details and seating arrangements.
+- **Email Verification**: Sending verification emails to users.
+- **CRON Jobs**: Automatic updates for movie and showtime statuses.
 
-## 3. API Design
+### Technologies Used
 
-### 3.1. User APIs
+- C#
+- ASP.NET Core
+- Entity Framework Core
+- Quartz.NET for scheduling CRON jobs
+- Docker
 
-- **POST** /api/users/register: Register a new user.
-- **POST** /api/users/login: Authenticate a user.
-- **GET** /api/users/profile: Get user profile.
-- **GET** /api/users/bookings: Get user booking history.
+### API Endpoints
 
-### 3.2. Movie APIs
+#### User Authentication
 
-- **GET** /api/movies: Get a list of movies.
-- **GET** /api/movies/{id}: Get details of a specific movie.
+- **POST** `/api/auth/register`: Register a new user.
+- **POST** `/api/auth/register-admin`: Register a new admin user.
+- **POST** `/api/auth/login`: User login.
+- **PUT** `/api/auth/password`: Update user password.
+- **POST** `/api/auth/logout`: User logout.
+- **POST** `/api/auth/verify/generateCode`: Generate a verification code.
+- **POST** `/api/auth/verify/verifyCode/{verificationCode}`: Verify the provided verification code.
 
-### 3.3. ShowTime APIs
+#### User Management
 
-- **GET** /api/showtimes: Get showtimes for all movies.
-- **GET** /api/showtimes/{id}: Get showtimes for a specific movie.
+- **GET** `/api/users`: Get all users.
+- **GET** `/api/users/customers`: Get all customer users.
+- **GET** `/api/users/admins`: Get all admin users.
+- **GET** `/api/users/id/{id}`: Get user by ID.
+- **GET** `/api/users/email/{email}`: Get user by email.
+- **PUT** `/api/users`: Update user details.
 
-### 3.4. Booking APIs
-
-- **POST** /api/bookings: Create a new booking.
-- **GET** /api/bookings/{id}: Get booking details.
-
-## 4. Endpoints
-
-### Admin Endpoints
-Admin endpoints are used by administrators to manage the system. These endpoints often include CRUD (Create, Read, Update, Delete) operations for movies, showtimes, theaters, and user management.
 #### Movie Management
-- **POST** /api/admin/movies: Add a new movie.
-- **PUT** /api/admin/movies/{id}: Update movie details.
-- **DELETE** /api/admin/movies/{id}: Delete a movie.
-- **GET** /api/admin/movies: Get a list of all movies (with detailed administrative info).
+
+- **POST** `/api/movies`: Add a new movie.
+- **GET** `/api/movies`: Get all movies.
+- **GET** `/api/movies/running`: Get running movies.
+- **GET** `/api/movies/byLanguages`: Get movies by languages.
+- **PUT** `/api/movies`: Update movie details.
+- **GET** `/api/movies/movie/{movieName}`: Get movie by name.
 
 #### Showtime Management
-- **POST** /api/admin/showtimes: Add a new showtime.
-- **PUT** /api/admin/showtimes/{id}: Update showtime details.
-- **DELETE** /api/admin/showtimes/{id}: Delete a showtime.
-- **GET** /api/admin/showtimes: Get a list of all showtimes (with detailed administrative info).
 
-#### Theater Management
-- **POST** /api/admin/theaters: Add a new theater.
-- **PUT** /api/admin/theaters/{id}: Update theater details.
-- **DELETE** /api/admin/theaters/{id}: Delete a theater.
-- **GET** /api/admin/theaters: Get a list of all theaters.
+- **POST** `/api/showtimes`: Add a new showtime.
+- **GET** `/api/showtimes`: Get all showtimes.
+- **GET** `/api/showtimes/{id}`: Get showtime by ID.
+- **PUT** `/api/showtimes/status`: Update showtime status.
+- **GET** `/api/showtimes/theatre/{theatreName}`: Get showtimes by theater name.
+- **GET** `/api/showtimes/seats/{showtimeId}`: Get seats for a showtime.
 
 #### Booking Management
-- **GET** /api/admin/bookings: Get a list of all bookings.
-- **GET** /api/admin/bookings/{id}: Get details of a specific booking.
-- **DELETE** /api/admin/bookings/{id}: Cancel a booking.
 
-### Customer Endpoints
-Customer endpoints are used by regular users of the system to browse movies, book tickets, and manage their profiles.
-#### User Management
-- **POST** /api/users/register: Register a new user.
-- **POST** /api/users/login: Authenticate a user.
-- **GET** /api/users/profile: Get user profile details.
-- **PUT** /api/users/profile: Update user profile details.
-- **GET** /api/users/bookings: Get user booking history.
+- **POST** `/api/bookings`: Add a new booking.
+- **GET** `/api/bookings`: Get all bookings.
+- **GET** `/api/bookings/{id}`: Get booking by ID.
 
-#### Movie Browsing
-- **GET** /api/movies: Get a list of movies.
-- **GET** /api/movies/{id}: Get details of a specific movie.
+#### Theater Management
 
-#### Showtime Browsing
-- **GET** /api/showtimes: Get showtimes for all movies.
-- **GET** /api/showtimes/{id}: Get showtimes for a specific movie.
+- **POST** `/api/theatres`: Add a new theater.
+- **GET** `/api/theatres`: Get all theaters.
+- **GET** `/api/theatres/{id}`: Get theater by ID.
+- **GET** `/api/theatres/locations`: Get all theater locations.
+- **PUT** `/api/theatres`: Update theater details.
 
-#### Booking
-- **POST** /api/bookings: Create a new booking.
-- **GET** /api/bookings/{id}: Get booking details.
-- **PUT** /api/bookings/{id}: Update a booking (if allowed).
-- **DELETE** /api/bookings/{id}: Cancel a booking (if allowed).
+## Frontend
 
-#### Payments(extra)
-- **POST** /api/payments: Process a payment.
-- **GET** /api/payments/{id}: Get payment details.
+### Features
 
-### 5. Class Diagrams
-![Class Diagrams](./Files/class_diagram.png)
+- **Movie Browsing**: View available movies and showtimes.
+- **Ticket Booking**: Book tickets for selected movies and showtimes.
+- **User Authentication**: Register, login, and manage user accounts.
+- **Responsive Design**: Optimized for both desktop and mobile devices.
+- **State Management**: Efficient state management using Redux.
+- **UI Components**: Styled with Bootstrap for a consistent and responsive design.
 
-### 6. Repositories
+### Technologies Used
 
-The repository for the backend of this project can be found [here](https://github.com/ash0306/AceFlicks-Backend)
+- React
+- Redux
+- Bootstrap
+- Vite
+- React Router
+- Axios
 
-The repository for the frontend of this project can be found [here](https://github.com/ash0306/AceFlicks-Frontend)
+## Repositories
+
+### Backend Repository
+
+The backend repository can be found [here](https://github.com/ash0306/AceTickets-Backend)
+
+### Frontend Repository
+
+The frontend repository can be found [here](https://github.com/ash0306/AceTickets-Frontend)
